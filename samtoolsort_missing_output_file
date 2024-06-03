@@ -1,7 +1,5 @@
 // error message 
 
-Command: nextflow run btv_consensus_nextflow_05312024.nf -resume
-
 N E X T F L O W  ~  version 23.10.1
 Launching `btv_consensus_nextflow_05312024.nf` [maniac_heyrovsky] DSL2 - revision: f20a083a37
 executor >  local (2)
@@ -32,6 +30,7 @@ Tip: view the complete command output by changing to the process work dir and en
  -- Check '.nextflow.log' file for details
 
 
+
 // solution
 
 The output in that process is referring to a file that supposed to be named:
@@ -43,3 +42,5 @@ But the output file that gets created by the samtools command is named:
 ${unsorted}_alignment_sorted.bam
 
 Note .sorted vs _sorted
+
+** Changed _sorted to .sorted
