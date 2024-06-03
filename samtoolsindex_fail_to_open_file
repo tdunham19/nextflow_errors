@@ -1,0 +1,41 @@
+// error message
+
+N E X T F L O W  ~  version 23.10.1
+Launching `btv_consensus_nextflow_05312024.nf` [backstabbing_hilbert] DSL2 - revision: 03d5c7a426
+executor >  local (2)
+[50/40f6e1] process > minimap2 (1)      [100%] 2 of 2, cached: 2 ✔
+[54/f3372c] process > samtoolsview (1)  [100%] 2 of 2, cached: 2 ✔
+executor >  local (2)
+[50/40f6e1] process > minimap2 (1)      [100%] 2 of 2, cached: 2 ✔
+[54/f3372c] process > samtoolsview (1)  [100%] 2 of 2, cached: 2 ✔
+[70/635d3c] process > samtoolssort (1)  [100%] 2 of 2, cached: 2 ✔
+[e0/e45361] process > samtoolsindex (1) [100%] 1 of 1, failed: 1
+ERROR ~ Error executing process > 'samtoolsindex (2)'
+
+Caused by:
+  Process `samtoolsindex (2)` terminated with an error exit status (1)
+
+Command executed:
+
+  samtools index FABADRU_600588.fastq.gz.sam_alignment.unsorted.bam_alignment.sorted.bam_alignment.sorted.bam
+
+Command exit status:
+  1
+
+Command output:
+  (empty)
+
+Command error:
+  [E::hts_open_format] Failed to open file "FABADRU_600588.fastq.gz.sam_alignment.unsorted.bam_alignment.sorted.bam_alignment.sorted.bam" : No such file or directory
+  samtools index: failed to open "FABADRU_600588.fastq.gz.sam_alignment.unsorted.bam_alignment.sorted.bam_alignment.sorted.bam": No such file or directory
+
+Work dir:
+  /home/tdunham/nextflow_tutorial/tillie/work/4f/2aefa25f2c2b01133ff70f5ae7f2ef
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+
+ -- Check '.nextflow.log' file for details
+
+
+
+// solution
