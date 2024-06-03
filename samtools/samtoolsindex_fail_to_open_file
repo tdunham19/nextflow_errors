@@ -39,3 +39,8 @@ Tip: when you have fixed the problem you can continue the execution adding the o
 
 
 // solution
+
+repetition of "_alignment.sorted.bam" in the filename.
+
+changeds amtools index ${sorted}_alignment.sorted.bam to samtools index ${sorted}
+
