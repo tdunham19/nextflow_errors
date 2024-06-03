@@ -1,0 +1,45 @@
+// error message 
+
+Command: nextflow run btv_consensus_nextflow_05312024.nf -resume
+
+N E X T F L O W  ~  version 23.10.1
+Launching `btv_consensus_nextflow_05312024.nf` [maniac_heyrovsky] DSL2 - revision: f20a083a37
+executor >  local (2)
+executor >  local (2)
+[50/40f6e1] process > minimap2 (1)     [100%] 2 of 2, cached: 2 ✔
+[17/3d95f7] process > samtoolsview (1) [100%] 2 of 2, cached: 2 ✔
+[2a/736cc1] process > samtoolssort (2) [100%] 1 of 1, failed: 1
+ERROR ~ Error executing process > 'samtoolssort (1)'
+
+Caused by:
+  Missing output file(s) `*_alignment.sorted.bam` expected by process `samtoolssort (1)`
+
+Command executed:
+
+  samtools sort FABADRU_891979.fastq.gz.sam_alignment.unsorted.bam -o FABADRU_891979.fastq.gz.sam_alignment.unsorted.bam_alignment_sorted.bam -O bam
+
+Command exit status:
+  0
+
+Command output:
+  (empty)
+
+Work dir:
+  /home/tdunham/nextflow_tutorial/tillie/work/7b/5adf60f1be7dc74fecdca1a7f5f7f8
+
+Tip: view the complete command output by changing to the process work dir and entering the command `cat .command.out`
+
+ -- Check '.nextflow.log' file for details
+
+
+// solution
+
+The output in that process is referring to a file that supposed to be named:
+
+path "*_alignment.sorted.bam", emit: bam
+
+But the output file that gets created by the samtools command is named:
+
+${unsorted}_alignment_sorted.bam
+
+Note .sorted vs _sorted
