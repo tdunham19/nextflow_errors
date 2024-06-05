@@ -1,0 +1,97 @@
+// begginer guide to modularizing processes 
+
+// goal: call a script from a process instead of writing the script in the process 
+
+// wanted to call the identify_best_segments_from_sam script written by MDS 
+
+
+
+
+// first draft of script 
+process bestsegsfromsam {
+
+input: 
+path refseq
+path alignment 
+
+output: 
+path "*_alignment_best10_refseq.fa", emit: fa
+
+script: 
+"""
+./modules/local/identify_best_segments_from_sam ${refseq} ${alignment} > *_alignment_best10_refseq.fa
+
+"""
+
+}
+
+/* 
+workflow {
+	alignment_channel=Channel.fromPath(alignment/*_alignment.sam)
+	refseq_channel=Channel.fromPath("btv_refseq.fasta").collect()
+	data = channel.fromPath('./modules/local/identify_best_segments_from_sam')
+	bestsegsfromsam(data)
+	
+}
+*/
+
+
+
+
+// error message from first draft script
+
+ERROR ~ Error executing process > 'bestsegsfromsam (2)'
+
+Caused by:
+  Process `bestsegsfromsam (2)` terminated with an error exit status (127)
+
+Command executed:
+
+  ./modules/local/identify_best_segments_from_sam btv_refseq.fasta FABADRU_600588.fastq.gz.sam > *_alignment_best10_refseq.fa
+
+Command exit status:
+  127
+
+Command output:
+  (empty)
+
+Command error:
+  .command.sh: line 2: ./modules/local/identify_best_segments_from_sam: No such file or directory
+
+Work dir:
+  /home/tdunham/nextflow_tutorial/tillie/work/63/a3aa52d14b752e3f2d158d63c98adf
+
+
+
+
+// solution
+
+// make a bin directory in the main pipeline directory
+// put the script into the bin directory and call it directly from the process
+
+process bestsegsfromsam {
+
+input: 
+path refseq
+path alignment 
+
+output: 
+path "${alignment}_best10_refseq.fa", emit: fa
+
+script: 
+"""
+identify_best_segments_from_sam ${refseq} ${alignment} > ${alignment}_best10_refseq.fa
+
+"""
+
+}
+
+/* 
+workflow {
+	alignment_channel=Channel.fromPath(alignment/*_alignment.sam)
+	refseq_channel=Channel.fromPath("btv_refseq.fasta").collect()
+	data = channel.fromPath('./modules/local/identify_best_segments_from_sam')
+	bestsegsfromsam(data)
+	
+}
+*/
