@@ -1,0 +1,93 @@
+// changing from normal script to bash/shell script
+
+
+
+
+// original code
+/*
+bcftools consensus will output a fasta file containing new draft consensus sequence based on called variants
+pipe output through remove_trailing_fasta_Ns to strip N characters from beginning and ends of seqs
+and then through a sed to append new_X_draft_sequence to name of fasta record
+*/
+process bcftoolsconsensus {
+
+container 'https://depot.galaxyproject.org/singularity/bcftools:1.20--h8b25389_0'
+
+publishDir "$params.outdir"
+  
+input: 
+path mask
+path best10refseq
+path cons
+
+output: 
+path "${mask}_new_draft_seqs.fa", emit: fa
+
+script: 
+"""
+bcftools consensus -m ${mask} -f ${best10refseq} ${cons} | remove_trailing_fasta_Ns | sed "/^>/ s/$/_new_${mask}_draft_sequence/" > ${mask}_new_draft_seqs.fa 
+"""
+}
+
+/*
+workflow {
+	cons_channel=Channel.fromPath(cons/*.cons.vcf.gz)
+	mask_channel=Channel.fromPath(mask/*.mask)
+	best10refseq_channel=Channel.fromPath("best10refseq/*_best10_refseq.fa").collect()
+	data = channel.fromPath('./modules/local/remove_trailing_fasta_Ns')
+	bcftoolsconsensus(mask_channel, best10refseq_channel, cons_channel, data)
+}
+*/
+
+
+
+
+// error message 
+ERROR ~ Script compilation error
+- file : /home/tdunham/nextflow_tutorial/tillie/btv_consensus_nextflow_05312024.nf
+- cause: token recognition error at: '/' @ line 458, column 100.
+   iling_fasta_Ns | sed "/^>/ s/$/_new_${ma
+                                 ^
+
+1 error
+
+
+
+
+// solution 
+// change script block to shell script 
+
+/*
+bcftools consensus will output a fasta file containing new draft consensus sequence based on called variants
+pipe output through remove_trailing_fasta_Ns to strip N characters from beginning and ends of seqs
+and then through a sed to append new_X_draft_sequence to name of fasta record
+*/
+process bcftoolsconsensus {
+
+container 'https://depot.galaxyproject.org/singularity/bcftools:1.20--h8b25389_0'
+
+publishDir "$params.outdir"
+  
+input: 
+path mask
+path best10refseq
+path cons
+
+output: 
+path "*_new_draft_seqs.fa", emit: fa
+
+shell: 
+'''
+bcftools consensus -m ${mask} -f ${best10refseq} ${cons} | remove_trailing_fasta_Ns | sed "/^>/ s/$/$/_new_*_draft_sequence/" > *_new_draft_seqs.fa 
+'''
+}
+
+/*
+workflow {
+	cons_channel=Channel.fromPath(cons/*.cons.vcf.gz)
+	mask_channel=Channel.fromPath(mask/*.mask)
+	best10refseq_channel=Channel.fromPath("best10refseq/*_best10_refseq.fa").collect()
+	data = channel.fromPath('./modules/local/remove_trailing_fasta_Ns')
+	bcftoolsconsensus(mask_channel, best10refseq_channel, cons_channel, data)
+}
+*/
