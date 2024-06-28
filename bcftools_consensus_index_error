@@ -1,0 +1,38 @@
+# bcftools_consensus errors 
+
+# Usage:   
+# need to make an indexed vcf file to make other bcftools commands happy: BCFTOOLS_INDEX
+# bcftools call creates a new vcf file that has consensus bases: BCFTOOLS_CALL 
+# need to make an indexed cons.vcf.gz file to make other bcftools commands happy: BCFTOOLS_INDEX
+# bcftools consensus will output a fasta file containing new draft consensus sequence based on called variants: BCFTOOLS_CONSENSUS (${mask}, ${refseq}, ${indexed-vcf-file}) 
+
+# Problem: 
+# mask and refseq file input fine. indexed cons.vcf.gz file causing issues. 
+
+# Failed Solutions: 
+### 1
+# input: BCFTOOLS_CALL.out.vcf (.cons.vcf.gz) 
+# command error:
+#  [E::idx_find_and_load] Could not retrieve index file for 'FABADRU_600588.cons.vcf.gz'
+#  Failed to read from FABADRU_600588.cons.vcf.gz: could not load index
+###
+### 2
+# input: BCFTOOLS_INDEX.out.csi (indexed .cons.vcf.gz file)
+# command error:
+#  [E::hts_hopen] Failed to open file FABADRU_891979.cons.vcf.gz.csi
+#  [E::hts_open_format] Failed to open file "FABADRU_891979.cons.vcf.gz.csi" : Exec format error
+#  Failed to read from FABADRU_891979.cons.vcf.gz.csi: Exec format error
+###
+### 3
+# input: BCFTOOLS_INDEX.out.tbi (indexed .cons.vcf.gz file)
+# throws no error but the bcftools_consensus command won't run
+###
+### 4
+# input: re-zipped .csi file to attempt correct input. 
+# command error:
+# Exec format error
+### 5
+# input: re-named .csi file to .cons.vcf.gz using cp
+# command error:
+# Exec format error
+###
