@@ -13,15 +13,15 @@
 ### 1
 # input: BCFTOOLS_CALL.out.vcf (.cons.vcf.gz) 
 # command error:
-#  [E::idx_find_and_load] Could not retrieve index file for 'FABADRU_600588.cons.vcf.gz'
-#  Failed to read from FABADRU_600588.cons.vcf.gz: could not load index
+#  [E::idx_find_and_load] Could not retrieve index file for '${sample_id}.cons.vcf.gz'
+#  Failed to read from ${sample_id}.cons.vcf.gz: could not load index
 ###
 ### 2
 # input: BCFTOOLS_INDEX.out.csi (indexed .cons.vcf.gz file)
 # command error:
-#  [E::hts_hopen] Failed to open file FABADRU_891979.cons.vcf.gz.csi
-#  [E::hts_open_format] Failed to open file "FABADRU_891979.cons.vcf.gz.csi" : Exec format error
-#  Failed to read from FABADRU_891979.cons.vcf.gz.csi: Exec format error
+#  [E::hts_hopen] Failed to open file ${sample_id}.cons.vcf.gz.csi
+#  [E::hts_open_format] Failed to open file "${sample_id}.cons.vcf.gz.csi" : Exec format error
+#  Failed to read from ${sample_id}.cons.vcf.gz.csi: Exec format error
 ###
 ### 3
 # input: BCFTOOLS_INDEX.out.tbi (indexed .cons.vcf.gz file)
