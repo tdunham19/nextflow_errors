@@ -1,0 +1,14 @@
+# Declares # input channels but only # specified 
+
+## Example error message
+Process `BTV_CONSENSUS:LOFREQ_CALL` declares 2 input channels but 1 were specified
+
+## Existing Code
+
+input:
+    tuple val(meta), path(input), path(best10refseq)
+    path fasta
+
+## Solution: Remove the second path, have all input specified in the tuple
+input:
+    tuple val(meta), path(input), path(best10refseq)
